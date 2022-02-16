@@ -1,5 +1,10 @@
 # demo-spring-react-example-v2: dsre-v2
 
+Links To Heroku Deployments:
+
+- Production: https://team03-w22-6pm-1.herokuapp.com/
+- QA: https://team03-w22-6pm-1-qa.herokuapp.com/
+
 Storybook is here:
 
 - Production: <https://ucsb-cs156-w22.github.io/STARTER-team03-docs/>
@@ -99,6 +104,7 @@ To access the swagger API endpoints, use:
     ```
 
 - On Heroku, without CLI:
+
   - Upper right of dashboard, select "More" then "Run Console"
 
     <img alt="Heroku Dashboard; More; Run Console" src="https://user-images.githubusercontent.com/1119017/150204550-a1027ab8-6ce7-4770-b566-a43928f5c3a0.png" width="300" />
@@ -106,4 +112,5 @@ To access the swagger API endpoints, use:
   - Enter `psql $DATABASE_URL` and click `Run`
 
     <img alt="Enter psql $DATABASE_URL and click Run" src="https://user-images.githubusercontent.com/1119017/150206174-43193825-1afd-49f4-aeaf-cfadf0c0c6f3.png" width="400" />
+
 - Cheatsheet of `psql` commands: <https://www.geeksforgeeks.org/postgresql-psql-commands/>
