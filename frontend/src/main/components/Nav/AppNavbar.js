@@ -97,10 +97,10 @@ export default function AppNavbar({ currentUser, systemInfo, doLogout, currentUr
               {
                 hasRole(currentUser, "ROLE_USER") && (
                   <NavDropdown title="UCSB Subjects" id="appnavbar-ucsbsubjects-dropdown" data-testid="appnavbar-ucsbsubjects-dropdown" >
-                    <NavDropdown.Item href="/ucsbsubjects/list">List</NavDropdown.Item>
+                    <NavDropdown.Item href="/ucsbsubjects/list" data-testid="appnavbar-ucsbsubjects-list">List</NavDropdown.Item>
                     {
                       hasRole(currentUser, "ROLE_ADMIN") && (
-                        <NavDropdown.Item href="/ucsbsubjects/create">Create</NavDropdown.Item>
+                        <NavDropdown.Item href="/ucsbsubjects/create" data-testid="appnavbar-ucsbsubjects-create">Create</NavDropdown.Item>
                       )
                     }
                   </NavDropdown>
