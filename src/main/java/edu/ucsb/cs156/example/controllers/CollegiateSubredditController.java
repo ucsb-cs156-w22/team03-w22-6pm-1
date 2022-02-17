@@ -116,7 +116,7 @@ public class CollegiateSubredditController extends ApiController {
 
         collegiateSubredditRepository.deleteById(id);
 
-        return ResponseEntity.ok().body(String.format("subreddit with id %d deleted", id));
+        return ResponseEntity.ok().body(String.format("Collegiate Subreddit with id %d deleted", id));
     }
 
     public SubredditOrError doesSubredditExist(SubredditOrError soe) {
