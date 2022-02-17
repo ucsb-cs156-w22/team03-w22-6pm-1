@@ -119,5 +119,27 @@ describe("UserTable tests", () => {
 
   });
 
+  test("Delete button navigates to the delete page for admin user", async () => {
+
+    const currentUser = currentUserFixtures.adminUser;
+
+    const { getByText, getByTestId } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <UCSBSubjectsTable subjects={ucsbSubjectsFixtures.threeSubjects} currentUser={currentUser} />
+        </MemoryRouter>
+      </QueryClientProvider>
+
+    );
+
+    await waitFor(() => { expect(getByTestId(`UCSBSubjectsTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
+
+    const deleteButton = getByTestId(`UCSBSubjectsTable-cell-row-0-col-Delete-button`);
+    expect(deleteButton).toBeInTheDocument();
+    
+    fireEvent.click(deleteButton);
+
+    //await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/ucsbsubjects/all'));
+  });
 });
 
