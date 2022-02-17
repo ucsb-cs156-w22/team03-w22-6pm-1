@@ -50,7 +50,6 @@ public class CollegiateSubredditController extends ApiController {
     @ApiOperation(value = "List all collegiate subreddits in the database")
     @GetMapping("/all")
     public Iterable<CollegiateSubreddit> index() {
-        loggingService.logMethod();
         Iterable<CollegiateSubreddit> subreddits = collegiateSubredditRepository.findAll();
         return subreddits;
     }
@@ -61,7 +60,6 @@ public class CollegiateSubredditController extends ApiController {
             @ApiParam("name") @RequestParam String name,
             @ApiParam("location") @RequestParam String location,
             @ApiParam("subreddit") @RequestParam String subreddit) {
-        loggingService.logMethod();
         CollegiateSubreddit sub = new CollegiateSubreddit();
         sub.setName(name);
         sub.setLocation(location);
@@ -75,7 +73,6 @@ public class CollegiateSubredditController extends ApiController {
     @GetMapping("")
     public ResponseEntity<String> getSubredditById(
             @ApiParam("id") @RequestParam Long id) throws JsonProcessingException {
-        loggingService.logMethod();
         SubredditOrError soe = new SubredditOrError(id);
 
         soe = doesSubredditExist(soe);
@@ -91,7 +88,6 @@ public class CollegiateSubredditController extends ApiController {
     public ResponseEntity<String> putSubredditById(
             @ApiParam("id") @RequestParam Long id,
             @RequestBody @Valid CollegiateSubreddit incomingCollegiateSubreddit) throws JsonProcessingException {
-        loggingService.logMethod();
 
         SubredditOrError soe = new SubredditOrError(id);
 
@@ -110,7 +106,6 @@ public class CollegiateSubredditController extends ApiController {
     @DeleteMapping("")
     public ResponseEntity<String> deleteSubreddit(
             @ApiParam("id") @RequestParam Long id) {
-        loggingService.logMethod();
 
         SubredditOrError soe = new SubredditOrError(id);
 
