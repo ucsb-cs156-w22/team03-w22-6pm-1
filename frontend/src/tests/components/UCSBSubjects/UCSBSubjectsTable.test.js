@@ -119,7 +119,7 @@ describe("UserTable tests", () => {
 
   });
 
-  test("Delete button navigates to the delete page for admin user", async () => {
+  test("Delete button deletes cell", async () => {
 
     const currentUser = currentUserFixtures.adminUser;
 
@@ -138,8 +138,6 @@ describe("UserTable tests", () => {
     expect(deleteButton).toBeInTheDocument();
     
     fireEvent.click(deleteButton);
-
-    //await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/ucsbsubjects/all'));
   });
 });
 
