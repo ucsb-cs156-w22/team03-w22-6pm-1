@@ -13,6 +13,13 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => mockedNavigate
 }));
 
+const mockedMutate = jest.fn();
+
+jest.mock('main/utils/useBackend', () => ({
+    ...jest.requireActual('main/utils/useBackend'),
+    useBackendMutation: () => ({mutate: mockedMutate})
+}));
+
 describe("UserTable tests", () => {
   const queryClient = new QueryClient();
 
@@ -138,6 +145,8 @@ describe("UserTable tests", () => {
     expect(deleteButton).toBeInTheDocument();
     
     fireEvent.click(deleteButton);
+
+    await waitFor(() => expect(mockedMutate).toHaveBeenCalledTimes(1));
   });
 });
 
