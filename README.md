@@ -1,9 +1,13 @@
 # demo-spring-react-example-v2: dsre-v2
 
+[![codecov](https://codecov.io/gh/ucsb-cs156-w22/team03-w22-6pm-1/branch/main/graph/badge.svg?token=aeDak0qz9G)](https://codecov.io/gh/ucsb-cs156-w22/team03-w22-6pm-1)
+
+
 Links To Heroku Deployments:
 
 - Production: https://team03-w22-6pm-1.herokuapp.com/
 - QA: https://team03-w22-6pm-1-qa.herokuapp.com/
+
 
 Storybook is here:
 
