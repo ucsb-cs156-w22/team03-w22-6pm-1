@@ -18,11 +18,11 @@ import lombok.Builder;
 @Builder
 @Entity(name = "collegiatesubreddits")
 public class CollegiateSubreddit {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-    private String name;
-    private String location;
-    private LocalDateTime subreddit;
+  private String name;
+  private String location;
+  private LocalDateTime subreddit;
 }
