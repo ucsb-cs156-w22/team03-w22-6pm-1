@@ -82,5 +82,4 @@ public class EarthquakesControllerTests {
         mockMvc.perform(get(url))
                                 .andExpect(status().is(403));
     }
-
 }
