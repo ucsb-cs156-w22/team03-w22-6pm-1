@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import edu.ucsb.cs156.example.collections.FeatureCollection;
+import edu.ucsb.cs156.example.documents.Feature;
 import edu.ucsb.cs156.example.repositories.UserRepository;
 import edu.ucsb.cs156.example.services.EarthquakeQueryService;
 
@@ -20,6 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @WebMvcTest(value = EarthquakesController.class)
@@ -79,6 +83,55 @@ public class EarthquakesControllerTests {
         when(mockEarthquakeQueryService.getJSON(eq(distance),eq(minMag))).thenReturn(fakeJsonResult);
         
         String url = String.format("/api/earthquakes/retrieve?distanceKm=%s&minMagnitude=%s",distance,minMag);
+        mockMvc.perform(get(url))
+                                .andExpect(status().is(403));
+    }
+
+
+
+
+
+
+    // Test the /all endpoint
+
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void test_allEarthquakes_admin() throws Exception {
+        List<Feature> fakeResult = new ArrayList<>();
+        when(featureCollection.findAll()).thenReturn(fakeResult);
+
+        String url = "/api/earthquakes/all";
+
+        MvcResult response = mockMvc
+            .perform( get(url).contentType("application/json"))
+            .andExpect(status().isOk()).andReturn();
+
+        String responseString = response.getResponse().getContentAsString();
+
+        assertEquals("[]", responseString);
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_allEarthquakes_user() throws Exception {
+        List<Feature> fakeResult = new ArrayList<>();
+        when(featureCollection.findAll()).thenReturn(fakeResult);
+
+        String url = "/api/earthquakes/all";
+
+        MvcResult response = mockMvc
+            .perform( get(url).contentType("application/json"))
+            .andExpect(status().isOk()).andReturn();
+
+        String responseString = response.getResponse().getContentAsString();
+
+        assertEquals("[]", responseString);
+    }
+
+    @Test
+    public void test_allEarthquakes_noauth() throws Exception {
+        
+        String url = "/api/earthquakes/all";
         mockMvc.perform(get(url))
                                 .andExpect(status().is(403));
     }
