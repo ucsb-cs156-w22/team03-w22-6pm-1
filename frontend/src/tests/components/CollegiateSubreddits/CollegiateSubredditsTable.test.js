@@ -13,6 +13,13 @@ jest.mock('react-router-dom', () => ({
     useNavigate: () => mockedNavigate
 }));
 
+const mockedMutate = jest.fn();
+
+jest.mock('main/utils/useBackend', () => ({
+    ...jest.requireActual('main/utils/useBackend'),
+    useBackendMutation: () => ({mutate: mockedMutate})
+}));
+
 describe("UserTable tests", () => {
   const queryClient = new QueryClient();
 
@@ -117,6 +124,30 @@ describe("UserTable tests", () => {
 
     await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/collegiatesubreddits/edit/1'));
 
+  });
+
+
+  test("Delete button deletes cell", async () => {
+
+    const currentUser = currentUserFixtures.adminUser;
+
+    const { getByText, getByTestId } = render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <CollegiateSubredditsTable subreddits={collegiateSubredditsFixtures.threeSubreddits} currentUser={currentUser} />
+        </MemoryRouter>
+      </QueryClientProvider>
+
+    );
+
+    await waitFor(() => { expect(getByTestId(`CollegiateSubredditsTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
+
+    const deleteButton = getByTestId(`CollegiateSubredditsTable-cell-row-0-col-Delete-button`);
+    expect(deleteButton).toBeInTheDocument();
+    
+    fireEvent.click(deleteButton);
+
+    await waitFor(() => expect(mockedMutate).toHaveBeenCalledTimes(1));
   });
 
 });
