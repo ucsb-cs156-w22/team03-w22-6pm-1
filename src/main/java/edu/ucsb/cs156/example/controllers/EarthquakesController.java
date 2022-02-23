@@ -58,4 +58,12 @@ public class EarthquakesController {
         featureCollection.saveAll(features);
         return ResponseEntity.ok().body(result);
     }
+
+    @ApiOperation(value = "List all of the earthquakes in the database", notes = "JSON return format documented here: https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/all")
+    public ResponseEntity<List<Feature>> listEarthquakes() throws JsonProcessingException {
+        log.info("listEarthquakes");
+        return ResponseEntity.ok().body(featureCollection.findAll());
+    }
 }
