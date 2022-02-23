@@ -9,25 +9,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import edu.ucsb.cs156.example.collections.FeatureCollection;
 import edu.ucsb.cs156.example.repositories.UserRepository;
 import edu.ucsb.cs156.example.services.EarthquakeQueryService;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
+
+import org.springframework.security.test.context.support.WithMockUser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.http.HttpHeaders;
 
 
 @WebMvcTest(value = EarthquakesController.class)
@@ -44,15 +36,18 @@ public class EarthquakesControllerTests {
     @MockBean
     UserRepository userRepository;
 
+    @MockBean
+    FeatureCollection featureCollection;
 
+    @WithMockUser(roles = { "ADMIN" })
     @Test
-    public void test_getEarthquakes() throws Exception {
+    public void test_getEarthquakes_admin() throws Exception {
         String fakeJsonResult="{ \"fake\" : \"result\" }";
         String distance = "100";
         String minMag = "1.5";
         when(mockEarthquakeQueryService.getJSON(eq(distance),eq(minMag))).thenReturn(fakeJsonResult);
 
-        String url = String.format("/api/earthquakes/get?distance=%s&minMag=%s",distance,minMag);
+        String url = String.format("/api/earthquakes/retrieve?distanceKm=%s&minMagnitude=%s",distance,minMag);
 
         MvcResult response = mockMvc
             .perform( get(url).contentType("application/json"))
@@ -61,6 +56,31 @@ public class EarthquakesControllerTests {
         String responseString = response.getResponse().getContentAsString();
 
         assertEquals(fakeJsonResult, responseString);
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_getEarthquakes_user() throws Exception {
+        String fakeJsonResult="{ \"fake\" : \"result\" }";
+        String distance = "100";
+        String minMag = "1.5";
+        when(mockEarthquakeQueryService.getJSON(eq(distance),eq(minMag))).thenReturn(fakeJsonResult);
+        
+        String url = String.format("/api/earthquakes/retrieve?distanceKm=%s&minMagnitude=%s",distance,minMag);
+        mockMvc.perform(get(url))
+                                .andExpect(status().is(403));
+    }
+
+    @Test
+    public void test_getEarthquakes_noauth() throws Exception {
+        String fakeJsonResult="{ \"fake\" : \"result\" }";
+        String distance = "100";
+        String minMag = "1.5";
+        when(mockEarthquakeQueryService.getJSON(eq(distance),eq(minMag))).thenReturn(fakeJsonResult);
+        
+        String url = String.format("/api/earthquakes/retrieve?distanceKm=%s&minMagnitude=%s",distance,minMag);
+        mockMvc.perform(get(url))
+                                .andExpect(status().is(403));
     }
 
 }
