@@ -11,8 +11,8 @@ Links To Heroku Deployments:
 
 Storybook is here:
 
-- Production: <https://ucsb-cs156-w22.github.io/STARTER-team03-docs/>
-- QA: <https://ucsb-cs156-w22.github.io/STARTER-team03-docs-qa/>
+- Production: <https://ucsb-cs156-w22.github.io/team03-w22-6pm-1-docs/>
+- QA: <https://ucsb-cs156-w22.github.io/team03-w22-6pm-1-docs-qa/>
 
 The GitHub actions script to deploy the Storybook to QA requires some configuration; see [docs/github-actions.md](docs/github-actions.md) for details.
 
