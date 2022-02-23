@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { hasRole } from "main/utils/currentUser";
 
 export default function UCSBSubjectsTable({ subjects, currentUser }) {
-
     const navigate = useNavigate();
 
     const editCallback = (cell) => {
