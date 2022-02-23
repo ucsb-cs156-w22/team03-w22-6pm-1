@@ -4,7 +4,7 @@ import CollegiateSubredditsCreatePage from "main/pages/CollegiateSubreddits/Coll
 
 export default {
     title: 'pages/CollegiateSubreddits/CollegiateSubredditsCreatePage',
-    component: CollegiateSubredditssCreatePage
+    component: CollegiateSubredditsCreatePage
 };
 
 const Template = () => <CollegiateSubredditsCreatePage />;
