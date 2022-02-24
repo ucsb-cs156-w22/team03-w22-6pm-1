@@ -8,7 +8,6 @@ export default function UCSBSubjectsCreatePage() {
     url: "/api/ucsbsubjects/post",
     method: "POST",
     params: {
-      id: ucsbSubject.id,
       subjectCode: ucsbSubject.subjectCode,
       subjectTranslation: ucsbSubject.subjectTranslation,
       deptCode: ucsbSubject.deptCode,

@@ -75,10 +75,9 @@ describe("UCSBSubjectsCreatePage tests", () => {
         );
 
         await waitFor(() => {
-            expect(getByTestId("UCSBSubjectForm-id")).toBeInTheDocument();
+            expect(getByTestId("UCSBSubjectForm-subjectCode")).toBeInTheDocument();
         });
 
-        const idField = getByTestId("UCSBSubjectForm-id");
         const subjectCodeField = getByTestId("UCSBSubjectForm-subjectCode");
         const subjectTranslationField = getByTestId("UCSBSubjectForm-subjectTranslation");
         const deptCodeField = getByTestId("UCSBSubjectForm-deptCode");
@@ -88,7 +87,6 @@ describe("UCSBSubjectsCreatePage tests", () => {
         const submitButton = getByTestId("UCSBSubjectForm-submit");
 
 
-        fireEvent.change(idField, { target: { value: '1' } });
         fireEvent.change(subjectCodeField, { target: { value: 'subjectCode1' } });
         fireEvent.change(subjectTranslationField, { target: { value: 'subjectTranslation1' } });
         fireEvent.change(deptCodeField, { target: { value: 'deptCode1' } });
@@ -104,7 +102,6 @@ describe("UCSBSubjectsCreatePage tests", () => {
 
         expect(axiosMock.history.post[0].params).toEqual(
             {
-            "id": "1",
             "subjectCode": "subjectCode1",
             "subjectTranslation": "subjectTranslation1",
             "deptCode": "deptCode1",

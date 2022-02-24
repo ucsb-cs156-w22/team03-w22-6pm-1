@@ -86,15 +86,16 @@ public class UCSBSubjectControllerTests extends ControllerTestCase{
 
     // Test /post endpoint
     @Test
+    @WithMockUser(roles = { "USER" })
     public void api_post() throws Exception {
         // arrange
-        UCSBSubject expectedUCSBSubject = UCSBSubject.builder().id(1L).subjectCode("code 1").subjectTranslation("translation 1").deptCode("dept code 1").collegeCode("college code 1").relatedDeptCode("related dept code 1").inactive(true).build();
+        UCSBSubject expectedUCSBSubject = UCSBSubject.builder().id(0L).subjectCode("code 1").subjectTranslation("translation 1").deptCode("dept code 1").collegeCode("college code 1").relatedDeptCode("related dept code 1").inactive(true).build();
 
         when(ucsbSubjectRepository.save(eq(expectedUCSBSubject))).thenReturn(expectedUCSBSubject);
 
         // act
         MvcResult response = mockMvc.perform(
-                post("/api/ucsbsubjects/post?id=1&subjectCode=code 1&subjectTranslation=translation 1&deptCode=dept code 1&collegeCode=college code 1&relatedDeptCode=related dept code 1&inactive=true")
+                post("/api/ucsbsubjects/post?subjectCode=code 1&subjectTranslation=translation 1&deptCode=dept code 1&collegeCode=college code 1&relatedDeptCode=related dept code 1&inactive=true")
                         .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
@@ -146,6 +147,7 @@ public class UCSBSubjectControllerTests extends ControllerTestCase{
 
     //Test api /put subject given id
     @Test
+    @WithMockUser(roles = { "USER" })
     public void api_subject_put_subject() throws Exception {
         // arrange
 
@@ -177,6 +179,7 @@ public class UCSBSubjectControllerTests extends ControllerTestCase{
 
     // Test api /put with Subject id that doesn't exist
     @Test
+    @WithMockUser(roles = { "USER" })
     public void api_subject_put_that_does_not_exist() throws Exception {
         // arrange
 
@@ -203,6 +206,7 @@ public class UCSBSubjectControllerTests extends ControllerTestCase{
 
     //Test api delete with given id
     @Test
+    @WithMockUser(roles = { "ADMIN", "USER" })
     public void api_subject_delete_subject() throws Exception {
         // arrange
         UCSBSubject ucsbSubject = UCSBSubject.builder().id(1L).subjectCode("code 1").subjectTranslation("translation 1").deptCode("dept code 1").collegeCode("college code 1").relatedDeptCode("related dept code 1").inactive(true).build();
@@ -222,6 +226,7 @@ public class UCSBSubjectControllerTests extends ControllerTestCase{
     }
     //Test api delete with Subject id that doesn't exist
     @Test
+    @WithMockUser(roles = { "ADMIN", "USER" })
     public void api_subject_delete_subject_that_does_not_exist() throws Exception {
         // arrange
 

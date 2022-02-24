@@ -57,9 +57,10 @@ public class UCSBSubjectController extends ApiController{
     }
 
     @ApiOperation(value = "Create a new UCSB Subject entry")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/post")
     public UCSBSubject postUCSBSubject(
-            @ApiParam("id") @RequestParam long id,
+            // @ApiParam("id") @RequestParam long id,
             @ApiParam("subject code") @RequestParam String subjectCode,
             @ApiParam("subject translation") @RequestParam String subjectTranslation,
             @ApiParam("dept code") @RequestParam String deptCode,
@@ -68,7 +69,7 @@ public class UCSBSubjectController extends ApiController{
             @ApiParam("inactive") @RequestParam boolean inactive) {
       
         UCSBSubject newSubject = new UCSBSubject();
-        newSubject.setId(id);
+        // newSubject.setId(id);
         newSubject.setSubjectCode(subjectCode);
         newSubject.setSubjectTranslation(subjectTranslation);
         newSubject.setDeptCode(deptCode);
@@ -97,6 +98,7 @@ public class UCSBSubjectController extends ApiController{
     }
 
     @ApiOperation(value = "Update a single UCSBSubject")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("")
     public ResponseEntity<String> putSubjectById(
             @ApiParam("id") @RequestParam Long id,
@@ -116,7 +118,7 @@ public class UCSBSubjectController extends ApiController{
     }
 
     @ApiOperation(value = "Delete a single UCSBSubject")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("")
     public ResponseEntity<String> deleteUCSBSubject(
             @ApiParam("id") @RequestParam Long id) {

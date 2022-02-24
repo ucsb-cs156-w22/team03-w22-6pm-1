@@ -20,7 +20,6 @@ describe("UCSBSubjectForm tests", () => {
                 <UCSBSubjectForm />
             </Router>
         );
-        await waitFor(() => expect(getByText(/Id/)).toBeInTheDocument());
         await waitFor(() => expect(getByText(/Subject code/)).toBeInTheDocument());
         await waitFor(() => expect(getByText(/Subject translation/)).toBeInTheDocument());
         await waitFor(() => expect(getByText(/Dept code/)).toBeInTheDocument());
@@ -97,7 +96,6 @@ describe("UCSBSubjectForm tests", () => {
                 <UCSBSubjectForm submitAction={mockSubmitAction} />
             </Router>
         );
-        await waitFor(() => expect(getByTestId("UCSBSubjectForm-id")).toBeInTheDocument());
         await waitFor(() => expect(getByTestId("UCSBSubjectForm-subjectCode")).toBeInTheDocument());
         await waitFor(() => expect(getByTestId("UCSBSubjectForm-subjectTranslation")).toBeInTheDocument());
         await waitFor(() => expect(getByTestId("UCSBSubjectForm-deptCode")).toBeInTheDocument());
@@ -106,7 +104,6 @@ describe("UCSBSubjectForm tests", () => {
         await waitFor(() => expect(getByTestId("UCSBSubjectForm-inactive")).toBeInTheDocument());
 
 
-        const idField = getByTestId("UCSBSubjectForm-id");
         const subjectCodeField = getByTestId("UCSBSubjectForm-subjectCode");
         const subjectTranslationField = getByTestId("UCSBSubjectForm-subjectTranslation");
         const deptCodeField = getByTestId("UCSBSubjectForm-deptCode");
@@ -115,7 +112,6 @@ describe("UCSBSubjectForm tests", () => {
         const inactiveField = getByTestId("UCSBSubjectForm-inactive");
         const submitButton = getByTestId("UCSBSubjectForm-submit");
 
-        fireEvent.change(idField, { target: { value: '1' } });
         fireEvent.change(subjectCodeField, { target: { value: 'subject code 1' } });
         fireEvent.change(subjectTranslationField, { target: { value: 'subject translation 1' } });
         fireEvent.change(deptCodeField, { target: { value: 'dept code 1' } });
@@ -126,7 +122,6 @@ describe("UCSBSubjectForm tests", () => {
 
         await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
 
-        await waitFor(() => expect(queryByText(/Id is required./)).not.toBeInTheDocument());
         expect(queryByText(/Subject code is required./)).not.toBeInTheDocument();
         expect(queryByText(/Subject translation is required./)).not.toBeInTheDocument();
         expect(queryByText(/Dept code is required./)).not.toBeInTheDocument();

@@ -37,7 +37,7 @@ function UCSBSubjectForm({ initialUCSBSubject, submitAction, buttonLabel="Create
                 </Form.Group>
             )}
 
-            <Form.Group className="mb-3" >
+            {/* <Form.Group className="mb-3" >
                 <Form.Label htmlFor="id">Id</Form.Label>
                 <Form.Control
                     data-testid="UCSBSubjectForm-id"
@@ -51,7 +51,7 @@ function UCSBSubjectForm({ initialUCSBSubject, submitAction, buttonLabel="Create
                 <Form.Control.Feedback type="invalid">
                     {errors.id?.message}
                 </Form.Control.Feedback>
-            </Form.Group>
+            </Form.Group> */}
 
             <Form.Group className="mb-3" >
                 <Form.Label htmlFor="subjectCode">Subject code</Form.Label>
