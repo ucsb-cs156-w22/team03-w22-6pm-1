@@ -25,7 +25,7 @@ describe("UCSBSubjectForm tests", () => {
         await waitFor(() => expect(getByText(/Dept code/)).toBeInTheDocument());
         await waitFor(() => expect(getByText(/College code/)).toBeInTheDocument());
         await waitFor(() => expect(getByText(/Related dept code/)).toBeInTheDocument());
-        await waitFor(() => expect(getByText(/Invalid/)).toBeInTheDocument());
+        await waitFor(() => expect(getByText(/Inactive/)).toBeInTheDocument());
         await waitFor(() => expect(getByText(/Create/)).toBeInTheDocument());
     });
 
@@ -54,15 +54,15 @@ describe("UCSBSubjectForm tests", () => {
         await waitFor(() => expect(getByTestId("UCSBSubjectForm-deptCode")).toBeInTheDocument());
         await waitFor(() => expect(getByTestId("UCSBSubjectForm-collegeCode")).toBeInTheDocument());
         await waitFor(() => expect(getByTestId("UCSBSubjectForm-relatedDeptCode")).toBeInTheDocument());
-        await waitFor(() => expect(getByTestId("UCSBSubjectForm-invalid")).toBeInTheDocument());
+        await waitFor(() => expect(getByTestId("UCSBSubjectForm-inactive")).toBeInTheDocument());
 
-        const invalidField = getByTestId("UCSBSubjectForm-invalid");
+        const inactiveField = getByTestId("UCSBSubjectForm-inactive");
         const submitButton = getByTestId("UCSBSubjectForm-submit");
 
-        fireEvent.change(invalidField, { target: { value: 'bad-input' } });
+        fireEvent.change(inactiveField, { target: { value: 'bad-input' } });
         fireEvent.click(submitButton);
 
-        await waitFor(() => expect(getByText(/Invalid status must be a boolean/)).toBeInTheDocument());
+        await waitFor(() => expect(getByText(/Inactive status must be a boolean/)).toBeInTheDocument());
     });
 
     test("Correct Error messsages on missing input", async () => {
@@ -82,7 +82,7 @@ describe("UCSBSubjectForm tests", () => {
         expect(getByText(/Dept code is required./)).toBeInTheDocument();
         expect(getByText(/College code is required./)).toBeInTheDocument();
         expect(getByText(/Related dept code is required./)).toBeInTheDocument();
-        expect(getByText(/Invalid status is required./)).toBeInTheDocument();
+        expect(getByText(/Inactive status is required./)).toBeInTheDocument();
 
     });
 
@@ -101,14 +101,15 @@ describe("UCSBSubjectForm tests", () => {
         await waitFor(() => expect(getByTestId("UCSBSubjectForm-deptCode")).toBeInTheDocument());
         await waitFor(() => expect(getByTestId("UCSBSubjectForm-collegeCode")).toBeInTheDocument());
         await waitFor(() => expect(getByTestId("UCSBSubjectForm-relatedDeptCode")).toBeInTheDocument());
-        await waitFor(() => expect(getByTestId("UCSBSubjectForm-invalid")).toBeInTheDocument());
+        await waitFor(() => expect(getByTestId("UCSBSubjectForm-inactive")).toBeInTheDocument());
+
 
         const subjectCodeField = getByTestId("UCSBSubjectForm-subjectCode");
         const subjectTranslationField = getByTestId("UCSBSubjectForm-subjectTranslation");
         const deptCodeField = getByTestId("UCSBSubjectForm-deptCode");
         const collegeCodeField = getByTestId("UCSBSubjectForm-collegeCode");
         const relatedDeptCodeField = getByTestId("UCSBSubjectForm-relatedDeptCode");
-        const invalidField = getByTestId("UCSBSubjectForm-invalid");
+        const inactiveField = getByTestId("UCSBSubjectForm-inactive");
         const submitButton = getByTestId("UCSBSubjectForm-submit");
 
         fireEvent.change(subjectCodeField, { target: { value: 'subject code 1' } });
@@ -116,17 +117,17 @@ describe("UCSBSubjectForm tests", () => {
         fireEvent.change(deptCodeField, { target: { value: 'dept code 1' } });
         fireEvent.change(collegeCodeField, { target: { value: 'college code 1' } });
         fireEvent.change(relatedDeptCodeField, { target: { value: 'related dept code 1' } });
-        fireEvent.change(invalidField, { target: { value: true } });
+        fireEvent.change(inactiveField, { target: { value: 'true' } });
         fireEvent.click(submitButton);
 
         await waitFor(() => expect(mockSubmitAction).toHaveBeenCalled());
 
-        await waitFor(() => expect(queryByText(/Subject code is required./)).not.toBeInTheDocument());
+        expect(queryByText(/Subject code is required./)).not.toBeInTheDocument();
         expect(queryByText(/Subject translation is required./)).not.toBeInTheDocument();
         expect(queryByText(/Dept code is required./)).not.toBeInTheDocument();
         expect(queryByText(/College code is required./)).not.toBeInTheDocument();
         expect(queryByText(/Related dept code is required./)).not.toBeInTheDocument();
-        expect(queryByText(/Invalid status is required./)).not.toBeInTheDocument();
+        expect(queryByText(/Inactive status is required./)).not.toBeInTheDocument();
     });
 
 

@@ -29,7 +29,6 @@ function UCSBSubjectForm({ initialUCSBSubject, submitAction, buttonLabel="Create
                     <Form.Label htmlFor="id">Id</Form.Label>
                     <Form.Control
                         data-testid="UCSBSubjectForm-id"
-                        id="id"
                         type="text"
                         {...register("id")}
                         value={initialUCSBSubject.id}
@@ -37,6 +36,22 @@ function UCSBSubjectForm({ initialUCSBSubject, submitAction, buttonLabel="Create
                     />
                 </Form.Group>
             )}
+
+            {/* <Form.Group className="mb-3" >
+                <Form.Label htmlFor="id">Id</Form.Label>
+                <Form.Control
+                    data-testid="UCSBSubjectForm-id"
+                    id="id"
+                    type="text"
+                    isInvalid={Boolean(errors.id)}
+                    {...register("id", {
+                        required: "Id is required."
+                    })}
+                />
+                <Form.Control.Feedback type="invalid">
+                    {errors.id?.message}
+                </Form.Control.Feedback>
+            </Form.Group> */}
 
             <Form.Group className="mb-3" >
                 <Form.Label htmlFor="subjectCode">Subject code</Form.Label>
@@ -119,17 +134,17 @@ function UCSBSubjectForm({ initialUCSBSubject, submitAction, buttonLabel="Create
             </Form.Group>
 
             <Form.Group className="mb-3" >
-                <Form.Label htmlFor="invalid">Invalid</Form.Label>
+                <Form.Label htmlFor="inactive">Inactive</Form.Label>
                 <Form.Control
-                    data-testid="UCSBSubjectForm-invalid"
-                    id="invalid"
+                    data-testid="UCSBSubjectForm-inactive"
+                    id="inactive"
                     type="boolean"
-                    isInvalid={Boolean(errors.invalid)}
-                    {...register("invalid", { required: true, pattern: bool_regex })}
+                    isInvalid={Boolean(errors.inactive)}
+                    {...register("inactive", { required: true, pattern: bool_regex })}
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors.invalid && 'Invalid status is required. '}
-                    {errors.invalid?.type === 'pattern' && 'Invalid status must be a boolean'}
+                    {errors.inactive && 'Inactive status is required. '}
+                    {errors.inactive?.type === 'pattern' && 'Inactive status must be a boolean'}
                 </Form.Control.Feedback>
             </Form.Group>
 
