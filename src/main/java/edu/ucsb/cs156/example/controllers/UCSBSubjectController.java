@@ -111,6 +111,7 @@ public class UCSBSubjectController extends ApiController{
             return usoe.error;
         }
 
+        incomingUCSBSubject.setId(id);
         ucsbSubjectRepository.save(incomingUCSBSubject);
 
         String body = mapper.writeValueAsString(incomingUCSBSubject);
