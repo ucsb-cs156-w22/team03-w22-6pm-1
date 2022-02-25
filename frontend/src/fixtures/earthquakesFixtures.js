@@ -9,8 +9,8 @@ const earthquakesFixtures = {
        },
        {
         "id": "abcd5678abcd5678abcd5678",
-        "title": "V 2.2 - 11km ESE of LA, CA",
-        "mag": 4.2,
+        "title": "M 2.2 - 11km ESE of LA, CA",
+        "mag": 2.17,
         "place": "11km ESE of LA, CA",
         "time": 1644571919023
       }
