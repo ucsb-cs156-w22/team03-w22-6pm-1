@@ -14,13 +14,15 @@ import lombok.Builder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "collegiatesubreddits")
-public class CollegiateSubreddit {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
-
-  private String name;
-  private String location;
-  private String subreddit;
+@Entity(name = "ucsbsubjects")
+public class UCSBSubject {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String subjectCode;
+    private String subjectTranslation;
+    private String deptCode;
+    private String collegeCode;
+    private String relatedDeptCode;
+    private boolean inactive;
 }

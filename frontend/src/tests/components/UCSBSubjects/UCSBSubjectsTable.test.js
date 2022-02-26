@@ -1,6 +1,6 @@
 import { fireEvent, render, waitFor } from "@testing-library/react";
-import { collegiateSubredditsFixtures } from "fixtures/collegiateSubredditsFixtures";
-import CollegiateSubredditsTable from "main/components/CollegiateSubreddits/CollegiateSubredditsTable"
+import { ucsbSubjectsFixtures } from "fixtures/ucsbSubjectsFixtures";
+import UCSBSubjectsTable from "main/components/UCSBSubjects/UCSBSubjectsTable"
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import { currentUserFixtures } from "fixtures/currentUserFixtures";
@@ -30,7 +30,7 @@ describe("UserTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CollegiateSubredditsTable subreddits={[]} currentUser={currentUser} />
+          <UCSBSubjectsTable subjects={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -42,7 +42,7 @@ describe("UserTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CollegiateSubredditsTable subreddits={[]} currentUser={currentUser} />
+          <UCSBSubjectsTable subjects={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -55,7 +55,7 @@ describe("UserTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CollegiateSubredditsTable subreddits={[]} currentUser={currentUser} />
+          <UCSBSubjectsTable subjects={[]} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
@@ -69,15 +69,15 @@ describe("UserTable tests", () => {
     const { getByText, getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CollegiateSubredditsTable subreddits={collegiateSubredditsFixtures.threeSubreddits} currentUser={currentUser} />
+          <UCSBSubjectsTable subjects={ucsbSubjectsFixtures.threeSubjects} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    const expectedHeaders = ["id", "Name", "Location", "Subreddit"];
-    const expectedFields = ["id", "name", "location", "subreddit"];
-    const testId = "CollegiateSubredditsTable";
+    const expectedHeaders = ["id", "Subject Code", "Subject Translation", "Dept Code", "College Code", "Related Dept Code", "Inactive"];
+    const expectedFields = ["id", "subjectCode", "subjectTranslation", "deptCode", "collegeCode", "relatedDeptCode", "inactive"];
+    const testId = "UCSBSubjectsTable";
 
     expectedHeaders.forEach((headerText) => {
       const header = getByText(headerText);
@@ -109,23 +109,22 @@ describe("UserTable tests", () => {
     const { getByText, getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CollegiateSubredditsTable subreddits={collegiateSubredditsFixtures.threeSubreddits} currentUser={currentUser} />
+          <UCSBSubjectsTable subjects={ucsbSubjectsFixtures.threeSubjects} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    await waitFor(() => { expect(getByTestId(`CollegiateSubredditsTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
+    await waitFor(() => { expect(getByTestId(`UCSBSubjectsTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
 
-    const editButton = getByTestId(`CollegiateSubredditsTable-cell-row-0-col-Edit-button`);
+    const editButton = getByTestId(`UCSBSubjectsTable-cell-row-0-col-Edit-button`);
     expect(editButton).toBeInTheDocument();
     
     fireEvent.click(editButton);
 
-    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/collegiatesubreddits/edit/1'));
+    await waitFor(() => expect(mockedNavigate).toHaveBeenCalledWith('/ucsbsubjects/edit/1'));
 
   });
-
 
   test("Delete button deletes cell", async () => {
 
@@ -134,21 +133,20 @@ describe("UserTable tests", () => {
     const { getByText, getByTestId } = render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <CollegiateSubredditsTable subreddits={collegiateSubredditsFixtures.threeSubreddits} currentUser={currentUser} />
+          <UCSBSubjectsTable subjects={ucsbSubjectsFixtures.threeSubjects} currentUser={currentUser} />
         </MemoryRouter>
       </QueryClientProvider>
 
     );
 
-    await waitFor(() => { expect(getByTestId(`CollegiateSubredditsTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
+    await waitFor(() => { expect(getByTestId(`UCSBSubjectsTable-cell-row-0-col-id`)).toHaveTextContent("1"); });
 
-    const deleteButton = getByTestId(`CollegiateSubredditsTable-cell-row-0-col-Delete-button`);
+    const deleteButton = getByTestId(`UCSBSubjectsTable-cell-row-0-col-Delete-button`);
     expect(deleteButton).toBeInTheDocument();
     
     fireEvent.click(deleteButton);
 
     await waitFor(() => expect(mockedMutate).toHaveBeenCalledTimes(1));
   });
-
 });
 
