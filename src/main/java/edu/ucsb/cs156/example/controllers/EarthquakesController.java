@@ -10,6 +10,7 @@ import edu.ucsb.cs156.example.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,17 @@ public class EarthquakesController {
     @ApiOperation(value = "List all of the earthquakes in the database", notes = "JSON return format documented here: https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
-    public ResponseEntity<List<Feature>> listEarthquakes() throws JsonProcessingException {
+    public ResponseEntity<List<Feature>> listEarthquakes() {
         log.info("listEarthquakes");
         return ResponseEntity.ok().body(featureCollection.findAll());
+    }
+
+    @ApiOperation(value = "Delete all of the earthquakes in the database")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/purge")
+    public ResponseEntity<String> purgeEarthquakes() {
+        log.info("purgeEarthquakes");
+        featureCollection.deleteAll();
+        return ResponseEntity.ok().body("Earthquakes collection cleaned");
     }
 }
