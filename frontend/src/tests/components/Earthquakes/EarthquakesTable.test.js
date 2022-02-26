@@ -75,10 +75,8 @@ describe("EarthquakesTable tests", () => {
       expect(header).toBeInTheDocument();
     });
 
-    expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("abcd1234abcd1234abcd1234");
-    expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("abcd5678abcd5678abcd5678");
-    expect(getByTestId(`${testId}-cell-row-0-col-place`)).toHaveTextContent("10km ESE of Ojai, CA");
-    expect(getByTestId(`${testId}-cell-row-1-col-place`)).toHaveTextContent("11km ESE of LA, CA");
+    expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("ci40193712");
+    expect(getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent("ci40193472");
 
   });
 

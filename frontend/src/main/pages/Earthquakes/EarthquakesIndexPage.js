@@ -16,11 +16,13 @@ export default function EarthquakesIndexPage() {
       { method: "GET", url: "/api/earthquakes/all" },
       []
     );
+    
+    console.log(earthquakes)
 
     let obj = earthquakes.map(earthquake => {
-      let json = earthquake.properties ? earthquake.properties : earthquake
+      let json = earthquake.properties
       json.id = earthquake.id
-      json.title = "M " + json.mag.toFixed(1) + " - " + json.place
+      json.title = earthquake.properties.title
       return json
     })
 

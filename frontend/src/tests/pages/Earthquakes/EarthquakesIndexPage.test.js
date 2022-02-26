@@ -75,8 +75,8 @@ describe("EarthquakesIndexPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-title`)).toHaveTextContent("M 2.2 - 10km ESE of Ojai, CA"); });
-        expect(getByTestId(`${testId}-cell-row-1-col-title`)).toHaveTextContent("M 2.2 - 11km ESE of LA, CA");
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-title`)).toHaveTextContent("M 0.8 Quarry Blast - 5km NNW of Azusa, CA"); });
+        expect(getByTestId(`${testId}-cell-row-1-col-title`)).toHaveTextContent("M 1.2 - 12km SE of Bodfish, CA");
     });
 
     test("renders two earthquakes without crashing for admin user", async () => {
@@ -92,8 +92,8 @@ describe("EarthquakesIndexPage tests", () => {
             </QueryClientProvider>
         );
 
-        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-title`)).toHaveTextContent("M 2.2 - 10km ESE of Ojai, CA"); });
-        expect(getByTestId(`${testId}-cell-row-1-col-title`)).toHaveTextContent("M 2.2 - 11km ESE of LA, CA");
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-title`)).toHaveTextContent("M 0.8 Quarry Blast - 5km NNW of Azusa, CA"); });
+        expect(getByTestId(`${testId}-cell-row-1-col-title`)).toHaveTextContent("M 1.2 - 12km SE of Bodfish, CA");
     });
 
     test("renders empty table when backend unavailable, user only", async () => {
