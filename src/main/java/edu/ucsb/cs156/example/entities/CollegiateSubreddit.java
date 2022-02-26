@@ -22,5 +22,5 @@ public class CollegiateSubreddit {
 
     private String name;
     private String location;
-    private LocalDateTime subreddit;
+    private String subreddit;
 }
