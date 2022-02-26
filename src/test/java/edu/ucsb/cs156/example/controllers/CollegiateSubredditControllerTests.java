@@ -209,4 +209,44 @@ public class CollegiateSubredditControllerTests extends ControllerTestCase {
         String responseString = response.getResponse().getContentAsString();
         assertEquals("Collegiate Subreddit with id 1 not found", responseString);
     }
+    @Test
+        @WithMockUser(roles = { "USER" })
+        public void api_delete_subreddit() throws Exception {
+                // arrange
+
+                CollegiateSubreddit colSub = CollegiateSubreddit.builder().id(1L).name("Gamer College")
+                                .location("Greenland").subreddit("r/gamercollege").build();
+                // idk what this line does tbh
+                when(collegiateSubredditRepository.findById(1L)).thenReturn(Optional.of(colSub));
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                delete("/api/collegiateSubreddits?id=1")
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(collegiateSubredditRepository, times(1)).findById(1L);
+                verify(collegiateSubredditRepository, times(1)).deleteById(1L);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals("Collegiate Subreddit with id 1 deleted", responseString);
+
+        }
+
+        @Test
+        @WithMockUser(roles = { "USER" })
+        public void api_delete_nonexistent_subreddit() throws Exception {
+                // arrange
+                when(collegiateSubredditRepository.findById(eq(2L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                delete("/api/collegiateSubreddits?id=2")
+                                                .with(csrf()))
+                                .andExpect(status().isBadRequest()).andReturn();
+                // assert
+                verify(collegiateSubredditRepository, times(1)).findById(2L);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals("Collegiate Subreddit with id 2 not found", responseString);
+        }
 }
