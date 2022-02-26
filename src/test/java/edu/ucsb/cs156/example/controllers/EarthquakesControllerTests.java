@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import edu.ucsb.cs156.example.collections.FeatureCollection;
 import edu.ucsb.cs156.example.documents.Feature;
+import edu.ucsb.cs156.example.documents.FeatureGeometry;
+import edu.ucsb.cs156.example.documents.FeatureProperties;
 import edu.ucsb.cs156.example.repositories.UserRepository;
 import edu.ucsb.cs156.example.services.EarthquakeQueryService;
 
@@ -21,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +45,43 @@ public class EarthquakesControllerTests {
 
     @MockBean
     FeatureCollection featureCollection;
+
+    public Feature createTestFeature(){
+        List<Float> coords = new ArrayList<Float>();
+        coords.add(1.1f);
+        coords.add(1.2f);
+        coords.add(1.3f);
+        FeatureProperties testProps = FeatureProperties.builder()
+            .mag(1.1f)
+            .place("Test")
+            .time(123)
+            .updated(123)
+            .tz(123)
+            .url("Test")
+            .detail("Test")
+            .felt(123)
+            .cdi(1.1f)
+            .mmi(1.1f)
+            .alert("Test")
+            .status("Test")
+            .tsunami(123)
+            .sig(123)
+            .net("Test")
+            .code("Test")
+            .ids("Test")
+            .sources("Test")
+            .types("Test")
+            .nst(123)
+            .dmin(1.1f)
+            .rms(1.1f)
+            .gap(1.1f)
+            .magType("Test")
+            .type("Test")
+            .build();
+        FeatureGeometry testGeom = FeatureGeometry.builder().coordinates(coords).build();
+        Feature testFeature = Feature.builder().geometry(testGeom).properties(testProps).build();
+        return testFeature;
+    }
 
     @WithMockUser(roles = { "ADMIN" })
     @Test
@@ -87,11 +127,6 @@ public class EarthquakesControllerTests {
                                 .andExpect(status().is(403));
     }
 
-
-
-
-
-
     // Test the /all endpoint
 
     @WithMockUser(roles = { "ADMIN", "USER" })
@@ -133,6 +168,42 @@ public class EarthquakesControllerTests {
         
         String url = "/api/earthquakes/all";
         mockMvc.perform(get(url))
+                                .andExpect(status().is(403));
+    }
+
+
+    // Test the purge endpoints
+    @WithMockUser(roles = { "ADMIN" })
+    @Test
+    public void test_purgeEarthquakes_admin() throws Exception {
+        Feature test = createTestFeature();
+
+        featureCollection.save(test);
+
+        String url = "/api/earthquakes/purge";
+
+        MvcResult response = mockMvc
+            .perform( post(url).with(csrf()).contentType("application/json"))
+            .andExpect(status().isOk()).andReturn();
+
+        String responseString = response.getResponse().getContentAsString();
+
+        assertEquals("Earthquakes collection cleaned", responseString);
+        assertEquals(0, featureCollection.count());
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_purgeEarthquakes_user() throws Exception {
+        String url = "/api/earthquakes/purge";
+        mockMvc.perform(post(url))
+                                .andExpect(status().is(403));
+    }
+
+    @Test
+    public void test_purgeEarthquakes_noauth() throws Exception {
+        String url = "/api/earthquakes/purge";
+        mockMvc.perform(post(url))
                                 .andExpect(status().is(403));
     }
 }

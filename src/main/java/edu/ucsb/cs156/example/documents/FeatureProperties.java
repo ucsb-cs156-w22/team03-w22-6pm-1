@@ -39,4 +39,5 @@ public class FeatureProperties {
     private float gap;
     private String magType;
     private String type;
+    private String title;
 }
