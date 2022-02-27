@@ -1,4 +1,4 @@
-import { render, waitFor } from "@testing-library/react";
+import { render, waitFor, fireEvent } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 import EarthquakesIndexPage from "main/pages/Earthquakes/EarthquakesIndexPage";
@@ -9,6 +9,16 @@ import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 import { earthquakesFixtures } from "fixtures/earthquakesFixtures";
 import mockConsole from "jest-mock-console";
+
+const mockToast = jest.fn();
+jest.mock('react-toastify', () => {
+    const originalModule = jest.requireActual('react-toastify');
+    return {
+        __esModule: true,
+        ...originalModule,
+        toast: (x) => mockToast(x)
+    };
+});
 
 describe("EarthquakesIndexPage tests", () => {
 
@@ -119,6 +129,52 @@ describe("EarthquakesIndexPage tests", () => {
         restoreConsole();
 
         expect(queryByTestId(`${testId}-cell-row-0-col-id`)).not.toBeInTheDocument();
+    });
+
+    test("Test for Purge Button", async () => {
+        setupAdminUser();
+
+        const queryClient = new QueryClient();
+
+        axiosMock.onGet("/api/earthquakes/all").replyOnce(200, earthquakesFixtures.twoEarthquakes).onGet("/api/earthquakes/all").replyOnce(200, []);
+
+        axiosMock.onPost("/api/earthquakes/purge").reply(200);
+
+        const { getByTestId, queryByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <EarthquakesIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => { expect(getByTestId(`${testId}-cell-row-0-col-id`)).toBeInTheDocument(); });
+
+        expect(getByTestId(`${testId}-cell-row-0-col-id`)).toHaveTextContent("ci40193712");
+
+        expect(getByTestId('Earthquakes-purge-button')).toBeInTheDocument();
+
+        fireEvent.click(getByTestId('Earthquakes-purge-button'));
+
+        await waitFor(() => { expect(mockToast).toBeCalledWith("Earthquakes were deleted"); });
+
+        await waitFor(() => { expect(queryByTestId(`${testId}-cell-row-0-col-id`)).not.toBeInTheDocument(); });
+    });
+
+    test("Test for regular user", async () => {
+        setupUserOnly();
+
+        const queryClient = new QueryClient();
+
+        const { queryByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <EarthquakesIndexPage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        expect(queryByTestId('Earthquakes-purge-button')).not.toBeInTheDocument();
     });
 
 });
