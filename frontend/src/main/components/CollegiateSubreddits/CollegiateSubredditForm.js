@@ -72,7 +72,7 @@ function CollegiateSubredditForm({ initialCollegiateSubreddit, submitAction, but
                     data-testid="CollegiateSubredditForm-subreddit"
                     id="subreddit"
                     type="text"
-                    isInvalid={Boolean(errors.subreddut)}
+                    isInvalid={Boolean(errors.subreddit)}
                     {...register("subreddit", {
                         required: "Subreddit is required."
                     })}
