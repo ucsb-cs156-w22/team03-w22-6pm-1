@@ -96,6 +96,7 @@ public class CollegiateSubredditController extends ApiController {
             return soe.error;
         }
 
+        incomingCollegiateSubreddit.setId(id);
         collegiateSubredditRepository.save(incomingCollegiateSubreddit);
 
         String body = mapper.writeValueAsString(incomingCollegiateSubreddit);

@@ -43,7 +43,7 @@ describe("CollegiateSubredditUtils", () => {
 
             // assert
             expect(result).toEqual({
-                url: "/api/collegiatesubreddits",
+                url: "/api/collegiateSubreddits",
                 method: "DELETE",
                 params: { id: 17 }
             });

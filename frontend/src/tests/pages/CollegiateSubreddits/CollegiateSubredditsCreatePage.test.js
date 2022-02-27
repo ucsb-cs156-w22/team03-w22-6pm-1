@@ -1,12 +1,13 @@
-import { render } from "@testing-library/react";
+import { render, waitFor, fireEvent } from "@testing-library/react";
 import CollegiateSubredditsCreatePage from "main/pages/CollegiateSubreddits/CollegiateSubredditsCreatePage";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { MemoryRouter } from "react-router-dom";
 
-import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
+import { apiCurrentUserFixtures }  from "fixtures/currentUserFixtures";
 import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
+
 
 const mockToast = jest.fn();
 jest.mock('react-toastify', () => {
@@ -49,5 +50,57 @@ describe("CollegiateSubredditsCreatePage tests", () => {
             </QueryClientProvider>
         );
     });
+
+    test("when you fill in the form and hit submit, it makes a request to the backend", async () => {
+
+        const queryClient = new QueryClient();
+        const collegiateSubreddit = {
+            id: 1,
+            name: "name1",
+            location: "location1",
+            subreddit: "subreddit1",
+        };
+
+        axiosMock.onPost("/api/collegiateSubreddits/post").reply( 202, collegiateSubreddit );
+
+        const { getByTestId } = render(
+            <QueryClientProvider client={queryClient}>
+                <MemoryRouter>
+                    <CollegiateSubredditsCreatePage />
+                </MemoryRouter>
+            </QueryClientProvider>
+        );
+
+        await waitFor(() => {
+            expect(getByTestId("CollegiateSubredditForm-name")).toBeInTheDocument();
+        });
+
+        const nameField = getByTestId("CollegiateSubredditForm-name");
+        const locationField = getByTestId("CollegiateSubredditForm-location");
+        const subredditField = getByTestId("CollegiateSubredditForm-subreddit");
+        const submitButton = getByTestId("CollegiateSubredditForm-submit");
+
+
+        fireEvent.change(nameField, { target: { value: 'name1' } });
+        fireEvent.change(locationField, { target: { value: 'location1' } });
+        fireEvent.change(subredditField, { target: { value: 'subreddit1' } });
+
+        expect(submitButton).toBeInTheDocument();
+
+        fireEvent.click(submitButton);
+
+        await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
+
+        expect(axiosMock.history.post[0].params).toEqual(
+            {
+            "name": "name1",
+            "location": "location1",
+            "subreddit": "subreddit1",
+        });
+
+        expect(mockToast).toBeCalledWith("New collegiateSubreddit Created - id: 1 name: name1");
+        expect(mockNavigate).toBeCalledWith({ "to": "/collegiateSubreddits/list" });
+    });
+
 
 });
