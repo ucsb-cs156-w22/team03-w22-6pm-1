@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+
 // example
 //  queryKey ["/api/users/all"] for "api/users/all"
 //  queryKey ["/api/users","4"]  for "/api/users?id=4"
