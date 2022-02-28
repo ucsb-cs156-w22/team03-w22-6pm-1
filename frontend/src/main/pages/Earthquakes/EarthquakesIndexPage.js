@@ -12,7 +12,8 @@ function Purge() {
   let purge = useBackendMutation(
     () => ({ url: "/api/earthquakes/purge", method: "POST" }),
     { onSuccess: () => { toast("Earthquakes were deleted"); } },
-    "/api/earthquakes/all"
+    // Stryker disable next-line all : hard to set up test for caching
+    ["/api/earthquakes/all"]
   );
   return (
     <Button variant="danger" onClick={() => purge.mutate()} data-testid="Earthquakes-purge-button">
